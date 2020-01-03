@@ -17,7 +17,7 @@ class GenericPatientsController < ApplicationController
 		@patient_bean = PatientService.get_patient(@patient.person)
 		@encounters = @patient.encounters.find_by_date(session_date)
 		@referral_section = get_referral_section(@patient.person, session_date).map{|service| service.value_text}.join(', ')  rescue 'None'
-		@diabetes_number = DiabetesService.diabetes_number(@patient)
+		@diabetes_number = DiabetesService.diabetes_number(@patient) rescue nil
 		@prescriptions = @patient.orders.unfinished.prescriptions.all
 		@programs = @patient.patient_programs.all
 		@alerts = alerts(@patient, session_date) rescue nil

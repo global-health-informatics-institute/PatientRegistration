@@ -1,9 +1,43 @@
 class PeopleController < GenericPeopleController
 
+	def missing_address
+		
+		chunks = params[:identifier].split("~")
+		@nid_data = {
+			"surname" => chunks[4],
+			"first_name"  => chunks[6],
+			"middle_name" => chunks[7],
+			"gender" 	  => chunks[8],
+			"dob"		  => chunks[9]						
+		}
+
+		@birthdate = @nid_data['dob'].to_date
+		@person = Person.new
+	end 
+
+	def qr_code_confirmation
+
+		chunks = params[:identifier].split("~")
+		@nid_data = {
+			"surname" => chunks[4],
+			"first_name"  => chunks[6],
+			"middle_name" => chunks[7],
+			"gender" 	  => chunks[8],
+			"dob"		  => chunks[9]						
+		}
+	end 
+
   def search
 
     found_person = nil
-		if params[:identifier]
+	
+	if params[:identifier] && params[:identifier].match("~")
+	
+		#Redirect to confirmation page
+		redirect_to :action => "qr_code_confirmation", :identifier => params[:identifier]
+	end 
+
+	if params[:identifier]
       params[:identifier] = params[:identifier].strip
 			local_results = DDE2Service.search_all_by_identifier(params[:identifier])
 
