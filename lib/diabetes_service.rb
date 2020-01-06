@@ -1,5 +1,5 @@
 module DiabetesService
-	require 'mechanize'
+#	require 'mechanize'
 	
   def self.remote_art_info(national_id)
     given_params = {:person => {:patient => { :identifiers => {"National id" => national_id }}}}
