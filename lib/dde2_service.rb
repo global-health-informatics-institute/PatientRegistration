@@ -632,7 +632,7 @@ module DDE2Service
    end
 
    if patient_bean.country_of_residence.present?
-     result["attributes"].merge! ({"country_of_residence" => patient_bean.country_of_residence})
+     result["attributes"].merge!({"country_of_residence" => patient_bean.country_of_residence})
    end
 
     data = nil

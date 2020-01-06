@@ -708,15 +708,20 @@ module PatientService
       address += ", " + patient_bean.current_residence unless patient_bean.current_residence.blank?
     end
 
+    qr_code_data = "#{patient_bean.name}~#{patient_bean.national_id}~#{patient_bean.birth_date}~#{patient_bean.sex.first}~#{address}"
+		address = address[0 .. 26]		
+
     label = ZebraPrinter::StandardLabel.new
     label.font_size = 2
     label.font_horizontal_multiplier = 2
     label.font_vertical_multiplier = 2
     label.left_margin = 50
-    label.draw_barcode(50,180,0,1,5,15,120,false,"#{patient_bean.national_id}")
-    label.draw_multi_text("#{patient_bean.name.titleize}")
-    label.draw_multi_text("#{patient_bean.national_id_with_dashes} #{patient_bean.birth_date}#{sex}")
-    label.draw_multi_text("#{address}" ) unless address.blank?
+		label.draw_text("#{patient_bean.name.titleize.strip}",35,5,0,1,2,2)
+		label.draw_text("#{patient_bean.national_id_with_dashes.strip}",35,35,0,1,2,2)
+		label.draw_text("#{patient_bean.birth_date}#{sex}",35,75,0,1,2,2)
+		label.draw_text("#{address.strip}",35,105,0,1,2,2) unless address.blank?
+		label.draw_barcode(50,160,0,1,3,10,120,false,"#{patient_bean.national_id}")
+    label.draw_qr_code(600,60,"m2","s5","#{qr_code_data}")
     label.print(1)
   end
 

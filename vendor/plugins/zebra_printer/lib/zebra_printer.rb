@@ -133,6 +133,10 @@ module ZebraPrinter #:nodoc:
      @output << "b#{x},#{y},#{p},#{a},#{b},#{e},#{i},#{l},#{r},#{f},#{s},\"#{data}\"\n"
    end 
 
+	 def draw_qr_code(x,y,s,m,data)
+     @output << "b#{x},#{y},Q,#{s},#{m},\"#{data}\"\n"
+   end
+
     # Draw line
     # +color+ 0=black, 1=white, 2=xor
     def draw_line(x,y,w,h,color = 0)
