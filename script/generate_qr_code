@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'barby'
+
+require 'barby/barcode'
+require 'barby/barcode/qr_code'
+require 'barby/outputter/png_outputter'
+require 'rqrcode'
+
+
+data = ARGV[0] #PersonService.qr_code_data(ARGV[0])
+barcode = Barby::QrCode.new(data, "level" => "q", "size" => 15) 
+
+file = File.open("#{ARGV[2]}/#{ARGV[1]}.png", "wb")
+file.write barcode.to_png(:height => 50, :xdim => 2)
+
+file.close
